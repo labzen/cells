@@ -1,6 +1,10 @@
 package cn.labzen.cells.core.utils
 
 import cn.labzen.cells.core.utils.Strings.fill
+import java.io.ByteArrayInputStream
+import java.io.ByteArrayOutputStream
+import java.io.ObjectInputStream
+import java.io.ObjectOutputStream
 import java.math.BigInteger
 import java.nio.charset.StandardCharsets
 
@@ -147,4 +151,27 @@ object Bytes {
     bytes.mapIndexed { index, byte ->
       (byte.toLong() and 0xff) shl (index * 8)
     }.sum()
+
+  /**
+   * 任意对象（Serializable)转换为字节数组
+   */
+  @JvmStatic
+  fun objectToBytes(obj: Any): ByteArray =
+    ByteArrayOutputStream().use { byteOS ->
+      ObjectOutputStream(byteOS).use { objectOS ->
+        objectOS.writeObject(obj)
+        byteOS.toByteArray()
+      }
+    }
+
+  /**
+   * 字节数组还原任意对象（Serializable)
+   */
+  @JvmStatic
+  fun bytesToObject(bytes: ByteArray): Any =
+    ByteArrayInputStream(bytes).use { byteIS ->
+      ObjectInputStream(byteIS).use { objectIS ->
+        objectIS.readObject()
+      }
+    }
 }
