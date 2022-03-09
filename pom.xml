@@ -20,6 +20,7 @@
   <modules>
     <module>core</module>
     <module>network</module>
+    <module>algorithm</module>
   </modules>
 
   <properties>

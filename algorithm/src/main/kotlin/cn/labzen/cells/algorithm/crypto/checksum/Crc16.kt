@@ -1,6 +1,6 @@
 @file:Suppress("DuplicatedCode", "unused")
 
-package cn.labzen.cells.core.algorithm
+package cn.labzen.cells.algorithm.crypto.checksum
 
 /**
  * CRC-16 循环冗余校验
