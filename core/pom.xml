@@ -14,6 +14,13 @@
   <name>${organization.name}.Cells.Core</name>
   <description>Labzen Cells Core - core utils and definitions</description>
 
+  <dependencies>
+    <dependency>
+      <groupId>cn.labzen</groupId>
+      <artifactId>logger</artifactId>
+    </dependency>
+  </dependencies>
+
   <build>
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
