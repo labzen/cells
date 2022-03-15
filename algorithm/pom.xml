@@ -5,12 +5,13 @@
   <parent>
     <artifactId>cells</artifactId>
     <groupId>cn.labzen</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>cells-algorithm</artifactId>
   <packaging>jar</packaging>
+  <version>1.0</version>
   <name>${organization.name}.Cells.Algorithm</name>
   <description>Labzen Cells Algorithm - set of common algorithms</description>
 
