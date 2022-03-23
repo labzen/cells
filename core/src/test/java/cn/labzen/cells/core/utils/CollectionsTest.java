@@ -1,6 +1,8 @@
 package cn.labzen.cells.core.utils;
 
+import cn.labzen.cells.core.utils.assist.SimpleBean;
 import com.google.common.collect.Lists;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -33,6 +35,17 @@ class CollectionsTest {
     List<String> target = removeBlank(source);
     assertNotNull(target);
     assertIterableEquals(expected, target);
+  }
+
+  @Test
+  void testAllEquals() {
+    List<SimpleBean> collection = Lists.newArrayList();
+    collection.add(new SimpleBean("a", 1, true));
+    collection.add(new SimpleBean("b", 2, true));
+    collection.add(new SimpleBean("c", 3, true));
+
+    Assertions.assertTrue(allEquals(collection, SimpleBean::getBooleanValue));
+    Assertions.assertFalse(allEquals(collection, SimpleBean::getStringValue));
   }
 
 }

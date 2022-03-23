@@ -1,5 +1,6 @@
 package cn.labzen.cells.core.utils
 
+import org.checkerframework.checker.units.qual.K
 import java.util.Collections
 
 object Collections {
@@ -28,4 +29,13 @@ object Collections {
   @JvmStatic
   fun removeBlank(collection: Iterable<String?>?): List<String> =
     collection?.filterNotNull()?.filterNot { it.isBlank() } ?: Collections.emptyList()
+
+  @JvmStatic
+  fun <E : Any, K> allEquals(collection: Iterable<E?>?, selector: (E) -> K): Boolean {
+    collection ?: return false
+
+    return collection.map {
+      if (it == null) null else selector(it)
+    }.toSet().size == 1
+  }
 }
