@@ -1,8 +1,5 @@
 package cn.labzen.cells.core.bean;
 
-import cn.labzen.cells.core.bean.MutableTriple;
-import cn.labzen.cells.core.bean.StrictTriple;
-import cn.labzen.cells.core.bean.Triple;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
