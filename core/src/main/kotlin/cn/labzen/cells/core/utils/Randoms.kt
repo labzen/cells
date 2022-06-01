@@ -97,6 +97,15 @@ object Randoms {
   }
 
   /**
+   * 生成随机字节数组
+   */
+  @JvmStatic
+  fun bytes(length: Int): ByteArray =
+    ByteArray(length).apply {
+      random.nextBytes(this)
+    }
+
+  /**
    * 从[Collection]集合中检出随机元素
    * ```
    * ArrayList<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5);
