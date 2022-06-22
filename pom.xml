@@ -24,7 +24,7 @@
   </modules>
 
   <properties>
-    <logger.version>1.0</logger.version>
+    <logger.version>1.1</logger.version>
   </properties>
 
   <licenses>
