@@ -5,7 +5,7 @@
   <parent>
     <artifactId>cells</artifactId>
     <groupId>cn.labzen</groupId>
-    <version>1.0</version>
+    <version>1.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
@@ -62,15 +62,21 @@
 
   <profiles>
     <profile>
-      <id>skip-network</id>
+      <id>release-network</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-deploy-plugin</artifactId>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
             <configuration>
-              <skip>true</skip>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
             </configuration>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
           </plugin>
         </plugins>
       </build>
