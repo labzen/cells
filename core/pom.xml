@@ -5,7 +5,8 @@
   <parent>
     <artifactId>cells</artifactId>
     <groupId>cn.labzen</groupId>
-    <version>1.0</version>
+    <version>1.2</version>
+    <relativePath>../parent</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
