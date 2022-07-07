@@ -8,7 +8,7 @@ import java.io.Serializable
  * Triple三元组（值不可变）
  * @param F 第一个元素类型
  * @param S 第二个元素类型
- * @param T 第二个元素类型
+ * @param T 第三个元素类型
  */
 data class Triple<F, S, T> constructor(val first: F?, val second: S?, val third: T?) : Serializable {
   fun copy() = Triple(first, second, third)
@@ -19,7 +19,7 @@ data class Triple<F, S, T> constructor(val first: F?, val second: S?, val third:
  * Triple三元组（值可变）
  * @param F 第一个元素类型
  * @param S 第二个元素类型
- * @param T 第二个元素类型
+ * @param T 第三个元素类型
  */
 data class MutableTriple<F, S, T> constructor(var first: F?, var second: S?, var third: T?) : Serializable {
   fun copy() = MutableTriple(first, second, third)
@@ -30,7 +30,7 @@ data class MutableTriple<F, S, T> constructor(var first: F?, var second: S?, var
  * Triple三元组（绝对不为空，值不可变）
  * @param F 第一个元素类型
  * @param S 第二个元素类型
- * @param T 第二个元素类型
+ * @param T 第三个元素类型
  */
 data class StrictTriple<F, S, T> constructor(val first: F, val second: S, val third: T) : Serializable {
 
@@ -48,7 +48,7 @@ data class StrictTriple<F, S, T> constructor(val first: F, val second: S, val th
  * Triple三元组（绝对不为空，值可变）
  * @param F 第一个元素类型
  * @param S 第二个元素类型
- * @param T 第二个元素类型
+ * @param T 第三个元素类型
  */
 data class StrictMutableTriple<F, S, T> constructor(var first: F, var second: S, var third: T) : Serializable {
 
