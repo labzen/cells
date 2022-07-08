@@ -25,6 +25,9 @@ object SpringGuider {
     env = ac.environment
   }
 
+  fun springClassLoader() =
+    ac.classLoader
+
   // ===================================================================================================================
 
   fun <T : Any> bean(type: Class<T>): Optional<T> {
