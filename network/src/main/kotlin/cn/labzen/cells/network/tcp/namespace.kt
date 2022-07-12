@@ -1,6 +1,6 @@
 package cn.labzen.cells.network.tcp
 
-internal const val TCP_PULSE_EVENT = "lynx:tcp:pulse"
+internal const val TCP_PULSE_EVENT = "labzen:tcp:pulse"
 private const val TCP_PULSE_CONTENT_PING = "ping"
 private const val TCP_PULSE_CONTENT_PONG = "pong"
 internal const val UNDEFINED_EVENT = "<<no event>>"

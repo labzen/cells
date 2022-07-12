@@ -3,7 +3,7 @@ package cn.labzen.cells.network.onvif
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 
 
@@ -15,7 +15,7 @@ abstract class MessageParser(val hostname: String, val message: String) {
 
   companion object {
     internal val mapper: ObjectMapper = XmlMapper().apply {
-      this.propertyNamingStrategy = PropertyNamingStrategy.UPPER_CAMEL_CASE
+      this.propertyNamingStrategy = PropertyNamingStrategies.UPPER_CAMEL_CASE
       this.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
   }

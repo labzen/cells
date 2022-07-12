@@ -1,16 +1,16 @@
 package cn.labzen.cells.network.tcp
 
 import cn.labzen.cells.core.bean.StrictPair
-import com.fasterxml.jackson.annotation.JsonInclude
-import com.fasterxml.jackson.core.type.TypeReference
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import cn.labzen.cells.network.tcp.client.TcpClientBuilder
 import cn.labzen.cells.network.tcp.client.TcpClientConfig
 import cn.labzen.cells.network.tcp.server.TcpServerBuilder
 import cn.labzen.cells.network.tcp.server.TcpServerConfig
+import com.fasterxml.jackson.annotation.JsonInclude
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import io.netty.buffer.ByteBuf
 import io.netty.channel.Channel
 import java.net.InetSocketAddress
@@ -20,10 +20,10 @@ object TCP {
 
   private val mapper = ObjectMapper().apply {
     this.setSerializationInclusion(JsonInclude.Include.NON_NULL)
-    this.propertyNamingStrategy = PropertyNamingStrategy.KEBAB_CASE
+    this.propertyNamingStrategy = PropertyNamingStrategies.KEBAB_CASE
 
     this.registerModule(JavaTimeModule())
-    this.registerModule(KotlinModule())
+    this.registerModule(KotlinModule.Builder().build())
   }
 
   @JvmStatic

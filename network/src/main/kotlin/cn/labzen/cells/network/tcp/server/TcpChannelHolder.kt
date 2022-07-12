@@ -63,7 +63,7 @@ internal object TcpChannelHolder {
     }
 
     if (uniform) {
-      latestAvailableChannels[ip] = null
+      latestAvailableChannels.remove(ip)
       logger.info("No channel is currently available")
     } else if (latestArchive != null) {
       logger.warn("服务端最后一次有效的 channel [${latestArchive.id}] 与目前中断的 channel [$id] 不一致")
@@ -95,7 +95,7 @@ internal object TcpChannelHolder {
       val key = it.keys().find { key ->
         key.startsWith(ip)
       } ?: throw TcpServerException("从未建立与[$ip]之间的连接")
-      it.get(key)!!
+      it.get(key)
     }
 
   fun all(address: String): MutableSet<ChannelArchive>? =
