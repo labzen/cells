@@ -16,7 +16,31 @@
   <name>${organization.name}.Cells.Core</name>
   <description>Labzen Cells Core - core utils and definitions</description>
 
+  <properties>
+    <meta.version>1.1</meta.version>
+    <logger.version>1.2-SNAPSHOT</logger.version>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>cn.labzen</groupId>
+        <artifactId>meta</artifactId>
+        <version>${meta.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>cn.labzen</groupId>
+        <artifactId>logger</artifactId>
+        <version>${logger.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
+    <dependency>
+      <groupId>cn.labzen</groupId>
+      <artifactId>meta</artifactId>
+    </dependency>
     <dependency>
       <groupId>cn.labzen</groupId>
       <artifactId>logger</artifactId>
