@@ -171,7 +171,6 @@ object Strings {
    * @return String 连接后的字符串
    */
   @JvmStatic
-  // fun concat(vararg parts: String): String = CollectionHelper.removeNull(parts.toList()).joinToString("")
   fun concat(vararg parts: String?): String =
     parts.filterNotNull().joinToString("")
 
@@ -357,11 +356,13 @@ object Strings {
           tmp = StringBuilder()
           foundOne = true
         }
+
         foundOne && it == end -> {
           ret.add(tmp.toString())
           tmp = null
           foundOne = false
         }
+
         else -> {
           tmp?.append(it)
           tmp?.run {
@@ -369,6 +370,7 @@ object Strings {
         }
       }
     }
+
     return ret.toList()
   }
 
@@ -416,19 +418,19 @@ object Strings {
    * 格式化字符串，使用可变数量参数代替掉字符串中出现的{}
    * ```
    * // return "a=1,b=2,a+b=3"
-   * Strings.format("a={},b={},a+b={}", "1", "2", "3")
+   * Strings.format("a={},b={},a+b={}", Lists.newArrayList("1", "2", "3"))
    * // return "a=1,b=2,a+b=\\{3}"
-   * Strings.format("a={},b={},a+b=\\{{}}", "1", "2", "3")
+   * Strings.format("a={},b={},a+b=\\{{}}", Lists.newArrayList("1", "2", "3"))
    * // return "a=1,b=2,a+b={}3"
-   * Strings.format("a={},b={},a+b=\\{}{}", "1", "2", "3")
+   * Strings.format("a={},b={},a+b=\\{}{}", Lists.newArrayList("1", "2", "3"))
    * // return "a=1,b=2,a+b=\\3"
-   * Strings.format("a={},b={},a+b=\\\\{}", "1", "2", "3")
+   * Strings.format("a={},b={},a+b=\\\\{}", Lists.newArrayList("1", "2", "3"))
    * // return "a={},b={},a+b={}"
    * Strings.format("a={},b={},a+b={}")
    * // return "a=1,b=2,a+b=3"
-   * Strings.format("a={},b={},a+b={}", "1", "2", "3", "4")
+   * Strings.format("a={},b={},a+b={}", Lists.newArrayList("1", "2", "3", "4"))
    * // return "a=1,b=2,a+b={}"
-   * Strings.format("a={},b={},a+b={}", "1", "2")
+   * Strings.format("a={},b={},a+b={}", Lists.newArrayList("1", "2"))
    * ```
    * @param pattern String 格式化字符串
    * @param arguments Array<out Any> 参数
@@ -590,10 +592,12 @@ object Strings {
   /**
    * 小写指定字符
    * ```
-   * // return "AbC"
+   * // return "abc"
+   * Strings.toLowerCase("ABC", 0);
+   * // return "Abc"
    * Strings.toLowerCase("ABC", 1);
-   * // return "ABC"
-   * Strings.toLowerCase("ABC", 1, 0);
+   * // return "Abc"
+   * Strings.toLowerCase("ABC", 1, 1);
    * // return "Abc"
    * Strings.toLowerCase("ABC", 1, 2);
   ```
@@ -613,10 +617,12 @@ object Strings {
   /**
    * 大写指定字符
    * ```
-   * // return "aBc"
+   * // return "ABC"
+   * Strings.toUpperCase("abc", 0);
+   * // return "aBC"
    * Strings.toUpperCase("abc", 1);
-   * // return "abc"
-   * Strings.toUpperCase("abc", 1, 0);
+   * // return "aBc"
+   * Strings.toUpperCase("abc", 1, 1);
    * // return "aBC"
    * Strings.toUpperCase("abc", 1, 2);
    * ```

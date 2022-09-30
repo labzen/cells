@@ -111,6 +111,7 @@ public class StringsTest {
     // ============
 
     Pair<String, String> parts = cut("000::111", "::");
+    assertNotNull(parts);
     assertEquals("000", parts.getFirst());
     assertEquals("111", parts.getSecond());
   }
@@ -153,6 +154,9 @@ public class StringsTest {
 
   @Test
   void testCase() {
+    assertEquals("abc", toLowerCase("ABC", 0));
+    assertEquals("ABC", toUpperCase("abc", 0));
+
     assertEquals("Abc", toLowerCase("ABC", 1));
     assertEquals("aBC", toUpperCase("abc", 1));
 
