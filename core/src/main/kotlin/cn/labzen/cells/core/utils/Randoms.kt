@@ -29,7 +29,6 @@ object Randoms {
   const val HEX_UPPER_CASE = "0123456789ABCDEF"
 
   private const val MAX_COLOR_RANGE = 255
-  private val random = ThreadLocalRandom.current()!!
 
   /**
    * 获取随机整数
@@ -39,13 +38,15 @@ object Randoms {
    */
   @JvmStatic
   @JvmOverloads
-  fun intNumber(min: Int = 0, max: Int, numbers: Numbers = Numbers.INTEGER): Int =
-    when (numbers) {
+  fun intNumber(min: Int = 0, max: Int, numbers: Numbers = Numbers.INTEGER): Int {
+    val random = ThreadLocalRandom.current()
+    return when (numbers) {
       Numbers.INTEGER -> random.nextInt(min, max)
       Numbers.EVEN_NUMBER -> random.nextInt(min, max) and -2
       Numbers.ODD_NUMBER -> random.nextInt(min, max) or 1
       else -> throw RandomException("numbers参数取值只支持INTEGER, EVEN_NUMBER, ODD_NUMBER")
     }
+  }
 
   /**
    * 获取随机长整数（型）
@@ -55,13 +56,15 @@ object Randoms {
    */
   @JvmStatic
   @JvmOverloads
-  fun longNumber(min: Long = 0, max: Long, numbers: Numbers = Numbers.INTEGER): Long =
-    when (numbers) {
+  fun longNumber(min: Long = 0, max: Long, numbers: Numbers = Numbers.INTEGER): Long {
+    val random = ThreadLocalRandom.current()
+    return when (numbers) {
       Numbers.INTEGER -> random.nextLong(min, max)
       Numbers.EVEN_NUMBER -> random.nextLong(min, max) and -2
       Numbers.ODD_NUMBER -> random.nextLong(min, max) or 1
       else -> throw RandomException("numbers参数取值只支持INTEGER, EVEN_NUMBER, ODD_NUMBER")
     }
+  }
 
   /**
    * 生成随机字符串，默认使用[Randoms.NUMBERS_AND_LETTERS]作为随机候选字符集
@@ -87,6 +90,7 @@ object Randoms {
   fun string(length: Int, chars: String = NUMBERS_AND_LETTERS): String {
     if (length <= 0 || chars.isEmpty()) return ""
 
+    val random = ThreadLocalRandom.current()
     val cs = CharArray(length)
     val size = chars.length
     for (i in 0 until length) {
@@ -100,10 +104,12 @@ object Randoms {
    * 生成随机字节数组
    */
   @JvmStatic
-  fun bytes(length: Int): ByteArray =
-    ByteArray(length).apply {
+  fun bytes(length: Int): ByteArray {
+    val random = ThreadLocalRandom.current()
+    return ByteArray(length).apply {
       random.nextBytes(this)
     }
+  }
 
   /**
    * 从[Collection]集合中检出随机元素
@@ -115,8 +121,10 @@ object Randoms {
    * @return E 随机元素
    */
   @JvmStatic
-  fun <E> element(target: Collection<E>) =
-    target.let { target.elementAt(random.nextInt(it.size)) }
+  fun <E> element(target: Collection<E>): E {
+    val random = ThreadLocalRandom.current()
+    return target.let { target.elementAt(random.nextInt(it.size)) }
+  }
 
   /**
    * 从[Map]集合中检出随机元素（随机Entry，并转换为键值对[Pair]）
@@ -144,8 +152,10 @@ object Randoms {
    * @return Color [Color]
    */
   @JvmStatic
-  fun rgbColor() =
-    random.let { Color(it.nextInt(MAX_COLOR_RANGE), it.nextInt(MAX_COLOR_RANGE), it.nextInt(MAX_COLOR_RANGE)) }
+  fun rgbColor(): Color {
+    val random = ThreadLocalRandom.current()
+    return Color(random.nextInt(MAX_COLOR_RANGE), random.nextInt(MAX_COLOR_RANGE), random.nextInt(MAX_COLOR_RANGE))
+  }
 
   /**
    * 随机十六进制颜色
@@ -155,15 +165,14 @@ object Randoms {
    * @return String #000000 十六进制颜色
    */
   @JvmStatic
-  fun hexColor() =
-    random.let {
-      String.format(
-        "#%02x%02x%02x",
-        it.nextInt(MAX_COLOR_RANGE),
-        it.nextInt(MAX_COLOR_RANGE),
-        it.nextInt(MAX_COLOR_RANGE)
-      )
-    }
+  fun hexColor(): String {
+    val random = ThreadLocalRandom.current()
+    return String.format(
+      "#%02x%02x%02x",
+      random.nextInt(MAX_COLOR_RANGE),
+      random.nextInt(MAX_COLOR_RANGE)
+    )
+  }
 
   /**
    * 随机时间，将返回在第一个和第二个参数时间质检的一个随机时间，如果某一个参数为空，则默认为当前时间。
@@ -198,8 +207,9 @@ object Randoms {
    * @return LocalDateTime 随机时间
    */
   @JvmStatic
-  fun localDateTime(range: Pair<LocalDateTime, LocalDateTime>): LocalDateTime =
-    with(range) {
+  fun localDateTime(range: Pair<LocalDateTime, LocalDateTime>): LocalDateTime {
+    val random = ThreadLocalRandom.current()
+    return with(range) {
       (first == null && second == null).throwRuntimeIf { RandomException("range中至少要提供first, second任意一个时间点") }
 
       val baseline = if (first != null && second != null) {
@@ -221,5 +231,5 @@ object Randoms {
 
       baseline.first!!.plusSeconds(randomSeconds)
     }
-
+  }
 }
