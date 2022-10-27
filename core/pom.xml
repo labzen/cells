@@ -12,7 +12,7 @@
 
   <artifactId>cells-core</artifactId>
   <packaging>jar</packaging>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.1</version>
   <name>${organization.name}.Cells.Core</name>
   <description>Labzen Cells Core - core utils and definitions</description>
 
