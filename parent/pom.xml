@@ -7,13 +7,13 @@
   <parent>
     <artifactId>parent</artifactId>
     <groupId>cn.labzen</groupId>
-    <version>11.5</version>
+    <version>11.7</version>
     <relativePath/>
   </parent>
 
   <artifactId>cells</artifactId>
   <packaging>pom</packaging>
-  <version>1.4-SNAPSHOT</version>
+  <version>1.4</version>
   <name>${organization.name}.Cells.Parent</name>
   <description>Labzen Cells - basic and small functions</description>
 
