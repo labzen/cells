@@ -150,7 +150,7 @@ inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String, ignoreCase: Boo
  */
 @Suppress("UNCHECKED_CAST")
 class InitOnceProperty<T> : ReadWriteProperty<Any, T> {
-
+// todo 增加一个 computeIfAbsent 方法
   private var value: Any = EMPTY
 
   override fun getValue(thisRef: Any, property: KProperty<*>): T = get()

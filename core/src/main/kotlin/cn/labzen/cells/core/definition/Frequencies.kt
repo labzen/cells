@@ -6,6 +6,17 @@ package cn.labzen.cells.core.definition
 @Suppress("unused")
 enum class Frequencies {
 
+  /*
+    todo  加入新的枚举，表达概率性    probabilistic
+
+    definitely  100%
+    probably    70%
+    maybe       50%
+    perhaps     30%
+    possibly    10%
+    never       0%
+  */
+
   /**
    * 极端的频繁
    */
