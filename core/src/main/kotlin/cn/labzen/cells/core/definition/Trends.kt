@@ -1,7 +1,7 @@
 package cn.labzen.cells.core.definition
 
 /**
- * 趋向，走向，倾向
+ * 趋向，走向，倾向，方向
  */
 @Suppress("unused")
 internal enum class Trends {

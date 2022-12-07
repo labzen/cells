@@ -2,8 +2,8 @@
 
 package cn.labzen.cells.core.kotlin
 
-import cn.labzen.cells.core.exception.LabzenException
-import cn.labzen.cells.core.exception.LabzenRuntimeException
+import cn.labzen.meta.exception.LabzenException
+import cn.labzen.meta.exception.LabzenRuntimeException
 import java.util.function.Supplier
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KAnnotatedElement
@@ -150,7 +150,7 @@ inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String, ignoreCase: Boo
  */
 @Suppress("UNCHECKED_CAST")
 class InitOnceProperty<T> : ReadWriteProperty<Any, T> {
-// todo 增加一个 computeIfAbsent 方法
+
   private var value: Any = EMPTY
 
   override fun getValue(thisRef: Any, property: KProperty<*>): T = get()
@@ -178,6 +178,12 @@ class InitOnceProperty<T> : ReadWriteProperty<Any, T> {
       throw IllegalStateException("The Value has been initialized")
     }
     this.value = value as Any
+  }
+
+  fun setIfAbsent(value: T) {
+    if (this.value == EMPTY) {
+      this.value = value as Any
+    }
   }
 
   fun initialized() =
