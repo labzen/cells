@@ -5,7 +5,7 @@
   <parent>
     <artifactId>cells</artifactId>
     <groupId>cn.labzen</groupId>
-    <version>1.3</version>
+    <version>1.5</version>
     <relativePath>../parent</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -13,14 +13,14 @@
   <artifactId>cells-network</artifactId>
   <packaging>jar</packaging>
   <version>1.1-SNAPSHOT</version>
-  <name>${organization.name}.Cells.Network</name>
+  <name>Labzen.Cells.Network</name>
   <description>Labzen Cells Network - https utils, tcp utils, ntp and onvif utils....</description>
 
   <dependencies>
     <dependency>
       <groupId>cn.labzen</groupId>
       <artifactId>cells-core</artifactId>
-      <version>1.1-SNAPSHOT</version>
+      <version>1.2</version>
     </dependency>
 
     <dependency>
@@ -83,58 +83,4 @@
     <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
   </build>
-
-  <profiles>
-    <profile>
-      <id>snapshot-network</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-
-      <repositories>
-        <repository>
-          <id>aliyun-public</id>
-          <url>https://maven.aliyun.com/repository/public</url>
-        </repository>
-        <repository>
-          <id>aliyun-central</id>
-          <url>https://maven.aliyun.com/repository/central</url>
-        </repository>
-        <repository>
-          <id>aliyun-spring</id>
-          <url>https://maven.aliyun.com/repository/spring</url>
-        </repository>
-        <repository>
-          <id>sonatype-snapshots</id>
-          <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
-          <releases>
-            <enabled>false</enabled>
-          </releases>
-          <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
-        </repository>
-      </repositories>
-    </profile>
-    <profile>
-      <id>release-network</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <configuration>
-              <serverId>ossrh</serverId>
-              <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-gpg-plugin</artifactId>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-  </profiles>
 </project>
