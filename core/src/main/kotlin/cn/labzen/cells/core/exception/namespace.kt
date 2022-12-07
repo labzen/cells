@@ -2,6 +2,9 @@
 
 package cn.labzen.cells.core.exception
 
+import cn.labzen.meta.exception.LabzenException
+import cn.labzen.meta.exception.LabzenRuntimeException
+
 /**
  * 内部错误
  */
