@@ -1,12 +1,14 @@
 package cn.labzen.cells.core.utils;
 
-import cn.labzen.cells.core.utils.DateTimes;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+
+import static cn.labzen.cells.core.definition.Constants.PATTERN_OF_DATE_TIME;
 
 class DateTimesTest {
 
@@ -33,5 +35,13 @@ class DateTimesTest {
     Date date1 = DateTimes.toDate(localDateTime);
     Date date2 = DateTimes.toDate(localDate, localTime);
     Assertions.assertEquals(date1, date2);
+  }
+
+  @Test
+  void testHowLong() {
+    // todo 需要大量的测试
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(PATTERN_OF_DATE_TIME);
+    LocalDateTime time1 = LocalDateTime.parse("2021-11-01 15:12:11", formatter);
+    System.out.println(DateTimes.howLong(time1, "y年c(前|后)"));
   }
 }
