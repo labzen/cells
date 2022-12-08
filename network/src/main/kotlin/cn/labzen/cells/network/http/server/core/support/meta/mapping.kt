@@ -1,11 +1,11 @@
 package cn.labzen.cells.network.http.server.core.support.meta
 
 import cn.labzen.cells.core.bean.StrictQuadruple
-import cn.labzen.cells.core.spring.SpringGuider
 import cn.labzen.cells.core.utils.Strings
 import cn.labzen.cells.network.exception.HttpServerException
 import cn.labzen.cells.network.http.meta.ContentType
 import cn.labzen.cells.network.http.server.annotation.*
+import cn.labzen.spring.helper.Springs
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.SetMultimap
 import org.springframework.core.annotation.AnnotatedElementUtils
@@ -130,7 +130,7 @@ internal class MappedClass(override val segment: String) : MappablePath, Multile
 
   fun instanceIfNecessary() {
     if (!this::instance.isInitialized) {
-      instance = SpringGuider.getOrCreate(cls)
+      instance = Springs.getOrCreate(cls)
     }
   }
 

@@ -1,9 +1,9 @@
 package cn.labzen.cells.network.http.server.core.support
 
 import cn.labzen.cells.core.definition.Constants
-import cn.labzen.cells.core.spring.SpringGuider
 import cn.labzen.cells.network.http.server.ServerConfiguration
 import cn.labzen.cells.network.http.server.core.handler.Filtering
+import cn.labzen.spring.helper.Springs
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 
@@ -17,8 +17,7 @@ class DefaultServletContextListener(
     servletContext.responseCharacterEncoding = Constants.DEFAULT_CHARSET_NAME
 
     configuration.context = servletContext
-
-    val dispatcher = SpringGuider.getOrCreate(Dispatcher::class.java)
+    val dispatcher = Springs.getOrCreate(Dispatcher::class.java)
     val dynamicServlet = servletContext.addServlet("dispatcher", dispatcher)
     dynamicServlet.addMapping(configuration.contextPath)
 
@@ -36,10 +35,11 @@ class DefaultServletContextListener(
   }
 
   private fun initFiltering(): List<Filtering> {
-    val filters = SpringGuider.scan("cn.labzen.cells.network.http.server.core.handler.filter", Filtering::class.java)
+    val filters =
+      Springs.scanClassesByAnnotation("cn.labzen.cells.network.http.server.core.handler.filter", Filtering::class.java)
     return filters.map {
       val filtering = it.getConstructor(ServerConfiguration::class.java).newInstance(configuration) as Filtering
-      SpringGuider.register(filtering, filtering.name())
+      Springs.register(filtering.name(), filtering)
       filtering
     }.sortedBy {
       it.order()

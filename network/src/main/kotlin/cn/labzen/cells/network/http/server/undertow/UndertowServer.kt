@@ -1,10 +1,8 @@
 package cn.labzen.cells.network.http.server.undertow
 
-import cn.labzen.cells.core.spring.SpringGuider
 import cn.labzen.cells.network.http.server.Server
 import cn.labzen.cells.network.http.server.ServerConfiguration
 import cn.labzen.cells.network.http.server.core.support.DefaultServletContextListener
-import cn.labzen.logger.kotlin.logger
 import io.undertow.Handlers
 import io.undertow.Undertow
 import io.undertow.server.HttpHandler
@@ -19,11 +17,13 @@ import io.undertow.servlet.api.DeploymentInfo
 import io.undertow.servlet.api.ListenerInfo
 import io.undertow.servlet.util.ImmediateInstanceFactory
 import io.undertow.util.URLUtils
+import org.slf4j.LoggerFactory
 import java.nio.file.Paths
 import java.util.*
 
 class UndertowServer internal constructor() : Server {
 
+  private val logger = LoggerFactory.getLogger(UndertowServer::class.java)
   private lateinit var server: Undertow
 
   private val builder = Undertow.builder()
@@ -32,7 +32,7 @@ class UndertowServer internal constructor() : Server {
   override fun init(configuration: ServerConfiguration) {
     deployment = Servlets.deployment()
       .setDeploymentName("labzen-undertow")
-      .setClassLoader(SpringGuider.springClassLoader())
+      .setClassLoader(UndertowServer::class.java.classLoader)
       .setEagerFilterInit(true)
       .setSecurityDisabled(true)
       .setContextPath(configuration.contextPath)
@@ -42,7 +42,7 @@ class UndertowServer internal constructor() : Server {
     val factory = ImmediateInstanceFactory<EventListener>(scl)
     val listener = ListenerInfo(scl::class.java, factory)
     deployment.addListener(listener)
-    deployment.resourceManager = ClassPathResourceManager(Companion::class.java.classLoader, "")
+    deployment.resourceManager = ClassPathResourceManager(UndertowServer::class.java.classLoader, "")
 
     val manager = Servlets.defaultContainer().addDeployment(deployment)
     manager.deploy()
@@ -121,7 +121,4 @@ class UndertowServer internal constructor() : Server {
     return server.worker?.isShutdown != false || server.worker?.isTerminated != false
   }
 
-  companion object {
-    private val logger = logger { }
-  }
 }

@@ -1,6 +1,6 @@
 package cn.labzen.cells.network.exception
 
-import cn.labzen.cells.core.exception.LabzenRuntimeException
+import cn.labzen.meta.exception.LabzenRuntimeException
 
 /**
  * TCP客户端异常

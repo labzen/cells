@@ -1,10 +1,10 @@
 package cn.labzen.cells.network.http.server.core.support
 
-import cn.labzen.cells.core.spring.SpringGuider
+import cn.labzen.cells.network.http.server.ServerConfiguration
 import cn.labzen.cells.network.http.server.annotation.Path
 import cn.labzen.cells.network.http.server.annotation.Restful
-import cn.labzen.cells.network.http.server.ServerConfiguration
 import cn.labzen.cells.network.http.server.core.support.meta.MappedClassProcessor
+import cn.labzen.spring.helper.Springs
 import org.springframework.core.type.filter.AnnotationTypeFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -15,7 +15,7 @@ internal class MappingsResolver(private val configuration: ServerConfiguration) 
   private val mcProcessor = MappedClassProcessor()
 
   init {
-    val mappingClasses = SpringGuider.scan(configuration.mappingPackage) {
+    val mappingClasses = Springs.scanClasses(configuration.mappingPackage) {
       it.addIncludeFilter(AnnotationTypeFilter(Path::class.java))
       it.addIncludeFilter(AnnotationTypeFilter(Restful::class.java))
     }

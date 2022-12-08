@@ -7,6 +7,7 @@ import cn.labzen.cells.network.http.server.core.support.meta.*
 import cn.labzen.cells.network.http.server.core.view.*
 import cn.labzen.logger.kotlin.logger
 import io.undertow.util.Headers
+import org.slf4j.LoggerFactory
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.servlet.http.HttpSession
@@ -17,7 +18,7 @@ internal class MappingAdapter(
   private val found: Set<Pair<MappedClass, MappedMethod>>
 ) {
 
-  private val logger = logger { }
+  private val logger = LoggerFactory.getLogger(MappingAdapter::class.java)
   private val variableParameters = mutableMapOf<String, String>()
 
   fun handle(req: HttpServletRequest, resp: HttpServletResponse): View {

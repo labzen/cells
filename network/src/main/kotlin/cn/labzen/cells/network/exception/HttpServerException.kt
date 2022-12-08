@@ -1,6 +1,7 @@
 package cn.labzen.cells.network.exception
 
-import cn.labzen.cells.core.exception.LabzenRuntimeException
+import cn.labzen.meta.exception.LabzenRuntimeException
+
 
 /**
  * HTTP服务器异常
