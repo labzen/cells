@@ -149,6 +149,7 @@ inline fun <reified T : Enum<T>> enumValueOfOrNull(name: String, ignoreCase: Boo
  * { IDIOMS } - 只能被赋值一次的属性
  */
 @Suppress("UNCHECKED_CAST")
+@Deprecated("改用AssignOnceProperty")
 class InitOnceProperty<T> : ReadWriteProperty<Any, T> {
 
   private var value: Any = EMPTY
