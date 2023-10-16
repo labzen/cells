@@ -29,15 +29,15 @@ public class ObjectsTest {
     Assertions.assertNotNull(int1);
     Assertions.assertEquals(123, int1.intValue());
 
-    Integer int2 = canBeInt(654L);
+    Integer int2 = canBeInt("654");
     Assertions.assertNotNull(int2);
     Assertions.assertEquals(654, int2.intValue());
 
-    Integer int3 = canBeInt(123.456, 10);
+    Integer int3 = canBeInt("123.456", 10);
     Assertions.assertNotNull(int3);
     Assertions.assertEquals(10, int3.intValue());
 
-    Integer int4 = canBeInt(2147483648L);
+    Integer int4 = canBeInt("2147483648");
     Assertions.assertNull(int4);
   }
 
