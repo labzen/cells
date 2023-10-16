@@ -91,13 +91,6 @@ object Objects {
 
   @JvmStatic
   @JvmOverloads
-  fun canBeInt(o: Any?, def: Int? = null) =
-    o?.let {
-      canBeInt(it.toString(), def)
-    } ?: def
-
-  @JvmStatic
-  @JvmOverloads
   fun canBeInt(s: String?, def: Int? = null) =
     s?.let {
       val result = canBeLong(it, def?.toLong())
