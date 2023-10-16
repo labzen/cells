@@ -4,7 +4,7 @@ import cn.labzen.cells.network.http.server.ServerConfiguration
 import cn.labzen.cells.network.http.server.annotation.Path
 import cn.labzen.cells.network.http.server.annotation.Restful
 import cn.labzen.cells.network.http.server.core.support.meta.MappedClassProcessor
-import cn.labzen.spring.helper.Springs
+import cn.labzen.spring.Springs
 import org.springframework.core.type.filter.AnnotationTypeFilter
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse

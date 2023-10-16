@@ -3,7 +3,7 @@ package cn.labzen.cells.network.http.server.core.support
 import cn.labzen.cells.core.definition.Constants
 import cn.labzen.cells.network.http.server.ServerConfiguration
 import cn.labzen.cells.network.http.server.core.handler.Filtering
-import cn.labzen.spring.helper.Springs
+import cn.labzen.spring.Springs
 import javax.servlet.ServletContextEvent
 import javax.servlet.ServletContextListener
 

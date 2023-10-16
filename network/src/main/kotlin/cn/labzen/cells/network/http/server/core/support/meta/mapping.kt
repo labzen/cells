@@ -5,7 +5,7 @@ import cn.labzen.cells.core.utils.Strings
 import cn.labzen.cells.network.exception.HttpServerException
 import cn.labzen.cells.network.http.meta.ContentType
 import cn.labzen.cells.network.http.server.annotation.*
-import cn.labzen.spring.helper.Springs
+import cn.labzen.spring.Springs
 import com.google.common.collect.HashMultimap
 import com.google.common.collect.SetMultimap
 import org.springframework.core.annotation.AnnotatedElementUtils
