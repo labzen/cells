@@ -7,6 +7,7 @@ import cn.labzen.cells.core.utils.Strings
 import org.slf4j.LoggerFactory
 import java.io.File
 import java.nio.file.Paths
+import java.util.function.Consumer
 
 private const val EXTENSION_OF_FILE_DLL = ".dll"
 private const val EXTENSION_OF_FILE_SO = ".so"
@@ -17,10 +18,10 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
 
   private var loaded = false
   private val report = DynamicLinkLibraryLoadReport()
-  private var callback = defaultCallback
+  private var callback: Consumer<DynamicLinkLibraryLoadReport> = defaultCallback
 
-  fun whenLoaded(block: (loadReport: DynamicLinkLibraryLoadReport) -> Unit) =
-    this.apply { callback = block }
+  fun whenLoaded(consumer: Consumer<DynamicLinkLibraryLoadReport>) =
+    this.apply { callback = consumer }
 
   fun load() {
     loaded.throwRuntimeIf { DynamicLinkLibraryLoadException("憋反复加载，有意思？") }
@@ -35,7 +36,7 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
     }
 
     loaded = true
-    callback(report)
+    callback.accept(report)
     logger.info("Library files loaded successfully")
   }
 
@@ -85,14 +86,13 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
         }
       }
     }
-    private val defaultCallback = { report: DynamicLinkLibraryLoadReport ->
+
+    private val defaultCallback = Consumer<DynamicLinkLibraryLoadReport> { report ->
       logger.info("Libraries load statistics reporting ...")
       logger.info("A total of {} library files were processed", report.totalNumber())
-
       val loadedFilePaths = report.loadedFilePaths()
       logger.info("Loaded {} library files successfully", loadedFilePaths.size)
       loadedFilePaths.forEach { logger.info("√√√ $it loaded") }
-
       val failureFilePaths = report.failureFilePaths()
       logger.info("And {} library files can not load into jvm", failureFilePaths.size)
       failureFilePaths.forEach { logger.info("××× ${it.key} failure. cause: ${it.value}") }
