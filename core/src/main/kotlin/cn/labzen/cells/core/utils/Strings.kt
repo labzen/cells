@@ -10,23 +10,23 @@ object Strings {
 
   /**
    * 如果第一个参数为null，返回default。否则返回第一个参数
-   * @param obj Any? 任意对象
+   * @param source String? 任意对象
    * @param default String? 当第一个参数为null时返回的值
    * @return String? 第一个参数或第二个参数
    */
   @JvmStatic
-  fun value(obj: Any?, default: String?): String? = obj?.toString() ?: default
+  fun value(source: String?, default: String?): String? = source ?: default
 
   /**
-   * 如果参数[obj]字符串值，匹配[pattern]，则替换为[replacement]，否则返回第一个参数
-   * @param obj Any? 任意对象
+   * 如果参数[source]字符串值，匹配[pattern]，则替换为[replacement]，否则返回第一个参数
+   * @param source String? 任意对象
    * @param pattern String 匹配正则表达式
    * @param replacement String 替代字符串
    * @return String? 匹配[pattern]的字符串替换为[replacement]，否则原样返回
    */
   @JvmStatic
-  fun value(obj: Any?, pattern: String, replacement: String): String? =
-    obj?.toString()?.let {
+  fun value(source: String?, pattern: String, replacement: String): String? =
+    source?.let {
       if (it.matches(Regex(pattern))) replacement else it
     }
 
@@ -401,17 +401,7 @@ object Strings {
   private const val ESCAPE_CHAR = '\\'
 
   private fun formatArguments(buf: StringBuilder, o: Any?) {
-    if (o == null) {
-      buf.append("[null]")
-      return
-    }
-
-    try {
-      val oAsString = o.toString()
-      buf.append(oAsString)
-    } catch (t: Throwable) {
-      buf.append("[failed ${o.javaClass.name}.toString()]")
-    }
+    buf.append(o?.toString() ?: "[null]")
   }
 
   /**
