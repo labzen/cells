@@ -4,7 +4,8 @@ import cn.labzen.cells.core.exception.DynamicLinkLibraryLoadException
 import cn.labzen.cells.core.kotlin.runIf
 import cn.labzen.cells.core.kotlin.throwRuntimeIf
 import cn.labzen.cells.core.utils.Strings
-import org.slf4j.LoggerFactory
+import cn.labzen.logger.kernel.enums.Status
+import cn.labzen.logger.kotlin.logger
 import java.io.File
 import java.nio.file.Paths
 import java.util.function.Consumer
@@ -14,18 +15,34 @@ private const val EXTENSION_OF_FILE_SO = ".so"
 
 class DynamicLinkLibraryLoader private constructor(private val libraries: List<File>) {
 
-  private val logger = LoggerFactory.getLogger(DynamicLinkLibraryLoader::class.java)
-
   private var loaded = false
   private val report = DynamicLinkLibraryLoadReport()
-  private var callback: Consumer<DynamicLinkLibraryLoadReport> = defaultCallback
+  private var callback: Consumer<DynamicLinkLibraryLoadReport> = Consumer<DynamicLinkLibraryLoadReport> { report ->
+    val loadedFilePaths = report.loadedFilePaths()
+    val failureFilePaths = report.failureFilePaths()
+    logger.info().scene(LOG_SCENE).status(Status.DONE)
+      .log(
+        "加载信息统计：共处理了 {} 个动态链接库文件 [成功加载: {}; 加载失败: {}].",
+        report.totalNumber(),
+        loadedFilePaths.size,
+        failureFilePaths.size
+      )
+
+    loadedFilePaths.forEach {
+      logger.info().scene(LOG_SCENE).status(Status.SUCCESS).log("loaded file: $it")
+    }
+
+    failureFilePaths.forEach {
+      logger.warn().scene(LOG_SCENE).status(Status.WRONG).log("failed file: ${it.key}, cause ${it.value}")
+    }
+  }
 
   fun whenLoaded(consumer: Consumer<DynamicLinkLibraryLoadReport>) =
     this.apply { callback = consumer }
 
   fun load() {
     loaded.throwRuntimeIf { DynamicLinkLibraryLoadException("憋反复加载，有意思？") }
-    logger.info("Starting load library files into JVM")
+    logger.info().scene(LOG_SCENE).status(Status.STARTING).log("开始加载动态链接库文件..")
 
     var pending = libraries
     var times = 0
@@ -37,7 +54,7 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
 
     loaded = true
     callback.accept(report)
-    logger.info("Library files loaded successfully")
+    logger.info().scene(LOG_SCENE).status(Status.COMPLETED).log("动态链接库文件加载成功.")
   }
 
   private fun internalLoad(file: File) {
@@ -70,8 +87,9 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
 
   companion object {
     private const val MAX_RETRY_TIMES = 5
+    private const val LOG_SCENE = "Library"
 
-    private val logger = LoggerFactory.getLogger(DynamicLinkLibraryLoader::class.java)
+    private val logger = logger { }
 
     private val projectRootPath by lazy {
       val systemResource = ClassLoader.getSystemResource("")
@@ -85,17 +103,6 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
           ""
         }
       }
-    }
-
-    private val defaultCallback = Consumer<DynamicLinkLibraryLoadReport> { report ->
-      logger.info("Libraries load statistics reporting ...")
-      logger.info("A total of {} library files were processed", report.totalNumber())
-      val loadedFilePaths = report.loadedFilePaths()
-      logger.info("Loaded {} library files successfully", loadedFilePaths.size)
-      loadedFilePaths.forEach { logger.info("√√√ $it loaded") }
-      val failureFilePaths = report.failureFilePaths()
-      logger.info("And {} library files can not load into jvm", failureFilePaths.size)
-      failureFilePaths.forEach { logger.info("××× ${it.key} failure. cause: ${it.value}") }
     }
 
     @JvmStatic
@@ -112,7 +119,7 @@ class DynamicLinkLibraryLoader private constructor(private val libraries: List<F
       return if (file.exists()) {
         file
       } else {
-        logger.warn("动态链接库路径找不到：{}", file)
+        logger.warn().scene(LOG_SCENE).log("动态链接库路径找不到：{}", file)
         null
       }
     }

@@ -9,7 +9,14 @@ object Systems {
 
     when {
       name.contains("win") -> OS.WINDOWS
-      name.contains("nix") || name.contains("nux") || name.contains("aix") -> OS.LINUX
+      name.contains("nix") || name.contains("nux") || name.contains("aix") ->
+        try {
+          Class.forName("android.os.Build")
+          OS.ANDROID
+        } catch (e: ClassNotFoundException) {
+          OS.LINUX
+        }
+
       name.contains("mac") -> OS.MAC
       name.contains("sunos") -> OS.SOLARIS
       else -> OS.UNKNOWN
@@ -30,6 +37,6 @@ object Systems {
   fun osArch() = OS_ARCH
 
   enum class OS {
-    WINDOWS, LINUX, MAC, SOLARIS, UNKNOWN
+    WINDOWS, LINUX, MAC, SOLARIS, ANDROID, UNKNOWN
   }
 }
