@@ -173,6 +173,7 @@ public class StringsTest {
     assertEquals("ThereIsAWord", studlyCase(" there-is-a-word "));
     assertEquals("", studlyCase("   "));
 
+    assertEquals("thereIsAWord", camelCase("  ThereIsAWord  "));
     assertEquals("thereIsAWord", camelCase("  there is a word"));
     assertEquals("thereIsAWord", camelCase("there_is_a_word  "));
     assertEquals("thereIsAWord", camelCase(" there-is-a-word "));
@@ -182,17 +183,17 @@ public class StringsTest {
     assertEquals("there_is_a_word", snakeCase("there_is_a_word  "));
     assertEquals("there_is_a_word", snakeCase(" there-is-a-word "));
     assertEquals("", snakeCase("   "));
-    assertEquals("there_is_some_word", snakeCase("thereIsSomeWord"));
-    assertEquals("there_is_a_word", snakeCase("thereIsAWord"));
-    assertEquals("there_is_a_word", snakeCase("ThereIsAWord"));
+    assertEquals("there_is_some_word", snakeCase("thereIsSomeWord", true));
+    assertEquals("there_is_a_word", snakeCase("thereIsAWord", true));
+    assertEquals("THERE_IS_A_WORD", snakeCase("ThereIsAWord", false));
 
-    assertEquals("there-is-a-word", kebabCase("  there is a word"));
-    assertEquals("there-is-a-word", kebabCase("there_is_a_word  "));
-    assertEquals("there-is-a-word", kebabCase(" there-is-a-word "));
+    assertEquals("there-is-a-word", kebabCase("  there is a word", true));
+    assertEquals("there-is-a-word", kebabCase("there_is_a_word  ", true));
+    assertEquals("there-is-a-word", kebabCase(" there-is-a-word ", true));
     assertEquals("", kebabCase("   "));
-    assertEquals("there-is-some-word", kebabCase("thereIsSomeWord"));
-    assertEquals("there-is-a-word", kebabCase("thereIsAWord"));
-    assertEquals("there-is-a-word", kebabCase("ThereIsAWord"));
+    assertEquals("there-is-some-word", kebabCase("thereIsSomeWord", true));
+    assertEquals("there-is-a-word", kebabCase("thereIsAWord", true));
+    assertEquals("THERE-IS-A-WORD", kebabCase("ThereIsAWord", false));
   }
 
   @Test

@@ -9,16 +9,22 @@ import kotlin.math.abs
 object Strings {
 
   /**
-   * 如果第一个参数为null，返回default。否则返回第一个参数
+   * 如果[source]为null，返回[default]。否则返回[source]
    * @param source String? 任意对象
-   * @param default String? 当第一个参数为null时返回的值
-   * @return String? 第一个参数或第二个参数
+   * @param default String? 当[source]为null时返回的值
+   * @return String? [source]或第二个参数
    */
   @JvmStatic
   fun value(source: String?, default: String?): String? = source ?: default
 
   /**
-   * 如果参数[source]字符串值，匹配[pattern]，则替换为[replacement]，否则返回第一个参数
+   * 如果[source]为null，返回[default]。否则返回[source].toString()
+   */
+  @JvmStatic
+  fun from(source: Any?, default: String?): String? = source?.toString() ?: default
+
+  /**
+   * 如果参数[source]字符串值，匹配[pattern]，则替换为[replacement]，否则返回[source]
    * @param source String? 任意对象
    * @param pattern String 匹配正则表达式
    * @param replacement String 替代字符串
@@ -26,9 +32,7 @@ object Strings {
    */
   @JvmStatic
   fun value(source: String?, pattern: String, replacement: String): String? =
-    source?.let {
-      if (it.matches(Regex(pattern))) replacement else it
-    }
+    if (source?.matches(Regex(pattern)) == true) replacement else source
 
   // ===================================================================================================================
 
@@ -628,19 +632,62 @@ object Strings {
       Ascii.toUpperCase(this)
     }
 
-  private fun symbolCase(source: String, symbol: Char): String = source.let {
-    val result = StringBuilder()
-    source.trim().forEachIndexed { i, c ->
-      result.append(
-        when (c) {
-          ' ', '_', '-', '\r', '\n', '\t' -> symbol
-          else -> if (c.isUpperCase()) {
-            if (i == 0) c.lowercase() else "$symbol${c.lowercase()}"
-          } else c
+  private val sectionSpaceCharacters = arrayOf(' ', '-', '_', '\r', '\n', '\t')
+  private fun slicingStrings(source: String, toLowercase: Boolean? = null): List<String> {
+    if (source.isEmpty()) return emptyList()
+
+    val result = mutableListOf<String>()
+    val currentString = StringBuilder()
+
+    var i = 0
+    while (i < source.length) {
+      val char = source[i]
+      if (sectionSpaceCharacters.contains(char)) {
+        if (currentString.isNotEmpty()) {
+          result.add(
+            when (toLowercase) {
+              null -> currentString.toString()
+              true -> currentString.toString().lowercase()
+              false -> currentString.toString().uppercase()
+            }
+          )
+          currentString.clear()
+        }
+
+        // 跳过连续的特殊字符
+        while (i < source.length && sectionSpaceCharacters.contains(source[i])) {
+          i++
+        }
+        continue
+      }
+
+      if (char.isUpperCase() && currentString.isNotEmpty()) {
+        result.add(
+          when (toLowercase) {
+            null -> currentString.toString()
+            true -> currentString.toString().lowercase()
+            false -> currentString.toString().uppercase()
+          }
+        )
+        currentString.clear()
+      }
+
+      currentString.append(char)
+      i++
+    }
+
+    // 添加最后一个
+    if (currentString.isNotEmpty()) {
+      result.add(
+        when (toLowercase) {
+          null -> currentString.toString()
+          true -> currentString.toString().lowercase()
+          false -> currentString.toString().uppercase()
         }
       )
     }
-    result.toString()
+
+    return result
   }
 
   /**
@@ -659,27 +706,27 @@ object Strings {
    * @return String 大写驼峰命名
    */
   @JvmStatic
-  fun studlyCase(source: String): String = source.run {
-    simplify(this).split(CASE_SEPARATOR).joinToString("") { w -> toUpperCase(w.lowercase(), 0, 1) }
-  }
+  fun studlyCase(source: String): String =
+    slicingStrings(source, true).joinToString("") { w -> toUpperCase(w, 0, 1) }
 
   /**
    * 转换成驼峰式，首字母小写
    * ```
    * // return "thereIsAWord"
-   * Strings.studlyCase("  there is a word"));
+   * Strings.camelCase("  there is a word"));
    * // return "thereIsAWord"
-   * Strings.studlyCase("there_is_a_word  "));
+   * Strings.camelCase("there_is_a_word  "));
    * // return "thereIsAWord"
-   * Strings.studlyCase(" there-is-a-word "));
+   * Strings.camelCase(" there-is-a-word "));
    * // return ""
-   * Strings.studlyCase("   "));
+   * Strings.camelCase("   "));
    * ```
    * @param source String 字符串
    * @return String 小写驼峰命名
    */
   @JvmStatic
-  fun camelCase(source: String): String = toLowerCase(studlyCase(source), 0, 1)
+  fun camelCase(source: String): String =
+    toLowerCase(studlyCase(source), 0, 1)
 
   /**
    * 转换成Snake Case，以下划线间隔
@@ -694,10 +741,13 @@ object Strings {
    * Strings.snakeCase("   ");
    * ```
    * @param source String 字符串
+   * @param toLowercase 是否将所有字符转换为小写，默认null；null - 保持原字符，true - 转小写, false - 转大写
    * @return String 蛇形命名
    */
   @JvmStatic
-  fun snakeCase(source: String): String = symbolCase(source, '_')
+  @JvmOverloads
+  fun snakeCase(source: String, toLowercase: Boolean? = null): String =
+    slicingStrings(source, toLowercase).joinToString("_")
 
   /**
    * 转换成Kebab Case，以短横线间隔
@@ -712,10 +762,13 @@ object Strings {
    * Strings.kebabCase("   ");
    * ```
    * @param source String 字符串
+   * @param toLowercase 是否将所有字符转换为小写，默认null；null - 保持原字符，true - 转小写, false - 转大写
    * @return String 短横线命名
    */
   @JvmStatic
-  fun kebabCase(source: String): String = symbolCase(source, '-')
+  @JvmOverloads
+  fun kebabCase(source: String, toLowercase: Boolean? = null): String =
+    slicingStrings(source, toLowercase).joinToString("-")
 
   // ===================================================================================================================
 
